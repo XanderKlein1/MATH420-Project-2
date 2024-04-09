@@ -71,3 +71,29 @@ print("Expected number of 3-cliques for ER:", three_clique)
 # 4 clieques estimate
 four_clique = math.comb(nodes_and_edges[0], 4) * (ER_MLE ** 6)
 print("Expected number of 4-cliques for ER:", four_clique)
+
+#SSBM Method of Moment Matching
+n = nodes_and_edges[0]
+m = nodes_and_edges[1]
+qtup.clear()
+qcliques(ADJ_MATRIX,3)
+t = len(qtup)
+c1 = 4*m/(n*(n-1))
+c2 = 24*t/(n*(n-1)*(n-2))
+a = 1/2*(c1 + math.pow((2*c2-math.pow(c1,3)),1/3))
+b = 1/2*(c1 - math.pow((2*c2-math.pow(c1,3)),1/3))
+print("Estimated value for a = " + str(a))
+print("Estimated value for b = " + str(b))
+
+n = nodes_and_edges[0]
+En1 = n/2
+En2 = (n**2 + n)/4
+En3 = (n**2)*(n+3)/8
+En4 = (n*(n+1)*(n**2 + 5*n -2))/16
+
+part1 = (a**6/24)*(2*En4 - 4*n*En3 + En2*(6*(n**2) - 18 * n + 22) + En1*(-4*n**3 + 18*(n**2) - 22*n) + n**4 - 6*(n**3)+11*(n**2) - 6*n)
+part2 = (a**3 * b **3)/6 * (-2*En4 + 4*n*En3 + En2*(-3*(n**2) + 3*n - 4) + En1*(n**3 - 3*(n**2)))
+part3 = (a**2)*(b**4)/4 * (En4 - 2*n*En3 + (n**2+n-1)*En2 + (-1*(n**2)+n)*En1)
+
+EX4 = part1 + part2 + part3
+print("Expectation of # of 4-cliques: " + str(EX4))
